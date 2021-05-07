@@ -42,11 +42,12 @@
                 <input type="checkbox"><i></i>
               </label>
             </th>
-            <th>ID</th>
             <th>TÊN SẢN PHẨM</th>
             <th>ẢNH</th>
             <th>GIÁ</th>
             <th>SALE</th>
+            <th>THƯƠNG HIỆU</th>
+            <th>NGƯỜI THÊM</th>
             <th>TRẠNG THÁI</th>
             <th>SỐ LƯỢNG</th>
             <th>NGÀY THÊM</th>
@@ -57,11 +58,12 @@
           @foreach ($all_pro as $pro)
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-           <td>{{$pro->id}}</td>
             <td>{{$pro->pro_name}}</td>
             <td><img src="{{"public/uploads/".$pro->pro_view.""}}" width="150px"></td>
             <td>{{ number_format($pro->pro_price)}}</td>
             <td>{{$pro->pro_sale."%"}}</td>
+            <td>{{$pro->c_name}}</td>
+            <td>{{$pro->name}}</td>
             <td><span class="text-ellipsis" style="text-align: center;">
             <?php
               if($pro->pro_active == 0){
@@ -73,7 +75,7 @@
                 </span>
             </td>
             <td>{{$pro->pro_number}}</td>
-            <td><span class="text-ellipsis">{{$pro->created_at}}</span></td>
+            <td><span class="text-ellipsis">{{date('d-m-Y', strtotime($pro->created_at))}}</span></td>
             <td>
               <a href="{{URL::to('/edit-product='.$pro->id)}}" ui-toggle-class="">
                 <i class="fa fa-pencil-square-o text-success text-active"></i>

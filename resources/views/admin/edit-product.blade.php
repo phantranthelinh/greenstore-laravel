@@ -64,7 +64,7 @@
                                 <div class="form-group">
                                     <label>Hình ảnh sản phẩm</label>
                                     <input type="file" name="images" value="">
-  
+                                    <img src="{{"public/uploads/".$pro->pro_view.""}}" width="150px">
                                 </div>
                                 <button type="submit" name="add-supp" class="btn btn-info">Cập nhật sản phẩm</button>
                             </form>

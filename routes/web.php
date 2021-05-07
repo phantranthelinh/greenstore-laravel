@@ -14,7 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 //Home 
 Route::get('/', 'HomeController@index');
-Route::get('home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
+Route::get('/index', 'HomeController@index');
+Route::get('/product','HomeController@all_product');
+Route::get('/account','HomeController@account');
+Route::get('/search','HomeController@search');
+
+
 //Admin
 Route::get('/admin','AdminController@index');
 Route::get('/dashboard','AdminController@show_dashboard');
@@ -33,7 +39,6 @@ Route::post('/update-brand={b_id}','BrandProduct@update_brand');
 Route::get('/add-product','ProductController@add_product');
 Route::get('/edit-product={pro_id}','ProductController@edit_product');
 Route::get('/delete-product={pro_id}','ProductController@delete_product');
-
 Route::get('/show-product','ProductController@show_product');
 Route::get('/unactive-product={pro_id}','ProductController@unactive_product');
 Route::get('/active-product={pro_id}','ProductController@active_product');

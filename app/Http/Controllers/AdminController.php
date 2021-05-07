@@ -9,12 +9,20 @@ use Session;
 use Illuminate\Support\Facades\Redirect;
 session_start();
 class AdminController extends Controller
-{
+{   
+    public function checkLogin(){
+        $id = Session::get('id');
+        if($id){
+            return Redirect::to('dashboard');
+        }else{
+            return Redirect::to('admin')->send();
+        }
+    }
     public function index(){
     	return view('admin-login');
     }
     public function show_dashboard(){
-   
+        $this->checkLogin();
     	return view('admin.dashboard');
     }
     public function login(Request $req){
@@ -27,7 +35,6 @@ class AdminController extends Controller
     		Session::put('name',$rs->name);
             Session::put('id',$rs->id);
     		Session::put('msg','Đăng nhập thành công!');
-            Session::put('isLogin','true');
     		return Redirect::to('/dashboard');
 
     	}else{
@@ -36,9 +43,10 @@ class AdminController extends Controller
     	}
     }
     public function logout(){
+        $this->checkLogin();
     	Session::put('name',null);
-    		Session::put('msg',null);
-    		return Redirect::to('/admin');
+    	Session::put('msg',null);
+    	return Redirect::to('/admin');
 
     }
 }

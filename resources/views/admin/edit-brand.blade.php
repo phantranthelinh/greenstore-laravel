@@ -32,9 +32,8 @@
                                     <input type="text" class="form-control"  value="{{$b->c_author_id}}" name="id_author">
                                 </div>
                                 <div class="form-group">
-                                    <label><img src="{{"public/uploads/brand/".$b->c_images.""}}" width="150px;"></label>
-                                    <br>
-                                    <input type="file" >
+                                    <input type="file" name="images">
+                                    <img src="{{"public/uploads/brand/".$b->c_images.""}}" width="150px;">
   
                                 </div>
                                 @endforeach

@@ -7,6 +7,8 @@
 <meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link rel = "icon" href = 
+"{{asset('public/backend/images/icon.png')}}">
 <!-- bootstrap-css -->
 <link rel="stylesheet" href="{{('public/backend/css/bootstrap.min.css')}}" >
 <!-- //bootstrap-css -->

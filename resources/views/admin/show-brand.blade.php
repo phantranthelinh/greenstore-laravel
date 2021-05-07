@@ -42,10 +42,10 @@
                 <input type="checkbox"><i></i>
               </label>
             </th>
-            <th>ID</th>
             <th>TÊN THƯƠNG HIỆU</th>
             <th>LOGO</th>
             <th>TRẠNG THÁI</th>
+            
             <th>NGÀY THÊM</th>
             <th style="width:30px;"></th>
           </tr>
@@ -54,7 +54,6 @@
           @foreach ($all_cate as $b)
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-            <td>{{$b->id}}</td>
             <td>{{$b->c_name}}</td>
             <td><img src="{{"public/uploads/brand/".$b->c_images.""}}" width="150px"></td>
             <td><span class="text-ellipsis" style="text-align: center;">
@@ -66,7 +65,7 @@
                  <a href="{{URL::to('/active-brand='.$b->id)}}"><span class="fa-style fa fa-circle" style="color:green;"><span></a>
             <?php } ?>
             </span></td>
-            <td><span class="text-ellipsis">{{$b->created_at}}</span></td>
+            <td><span class="text-ellipsis">{{date('d-m-Y', strtotime($b->created_at))}}</span></td>
             <td>
               <a href="{{URL::to('/edit-brand='.$b->id)}}" ui-toggle-class="">
                 <i class="fa fa-pencil-square-o text-success text-active"></i>
