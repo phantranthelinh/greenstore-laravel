@@ -35,7 +35,9 @@ class ProductController extends Controller
         $data['pro_price']=$req->price;
         $data['pro_active']=$req->status;
         $data['pro_category_id']=$req->brand;
+        $data['pro_description']=$req->des;
         $data['pro_content']=$req->content;
+
 
         $get_image = $req->file('images');
         if($get_image){
@@ -107,5 +109,13 @@ class ProductController extends Controller
     DB::table('products')->where('id',$pro_id)->update($data);
     Session::put('msg','Cập nhật sản phẩm thành công!');
     return Redirect::to('show-product');}
-    
+    //End admin
+    public function product_detail($key){
+        $pro =DB::table('products')->where('products.pro_keyword',$key)->where('products.pro_active','1')->get();
+        $categories = DB::table('categories')->where('c_active','1')->get();
+        $image_pro = DB::table('images')->join('products','images.im_product_id','=','products.id')->where('products.pro_keyword',$key)->get();
+        $size_pro = DB::table('size')->join('products','size.size_product_id','=','products.id')->where('products.pro_keyword',$key)->get();
+
+        return view('product-detail')->with('pro',$pro)->with('categories',$categories)->with('images',$image_pro)->with('size_pro',$size_pro);
+    }
 }

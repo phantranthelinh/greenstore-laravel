@@ -55,32 +55,32 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($all_pro as $pro)
+          @foreach ($all_pro as $p)
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-            <td>{{$pro->pro_name}}</td>
-            <td><img src="{{"public/uploads/".$pro->pro_view.""}}" width="150px"></td>
-            <td>{{ number_format($pro->pro_price)}}</td>
-            <td>{{$pro->pro_sale."%"}}</td>
-            <td>{{$pro->c_name}}</td>
-            <td>{{$pro->name}}</td>
+            <td>{{$p->pro_name}}</td>
+            <td><img src="{{"public/uploads/".$p->pro_view.""}}" width="150px"></td>
+            <td>{{ number_format($p->pro_price)}}</td>
+            <td>{{$p->pro_sale."%"}}</td>
+            <td>{{$p->c_name}}</td>
+            <td>{{$p->name}}</td>
             <td><span class="text-ellipsis" style="text-align: center;">
             <?php
-              if($pro->pro_active == 0){
+              if($p->pro_active == 0){
             ?>
-             <a href="{{URL::to('/unactive-product='.$pro->id)}}"><span class="fa-style fa fa-circle" style="color:red;"><span></a>
+             <a href="{{URL::to('/unactive-product='.$p->id)}}"><span class="fa-style fa fa-circle" style="color:red;"><span></a>
             <?php }else{ ?>
-                 <a href="{{URL::to('/active-product='.$pro->id)}}"><span class="fa-style fa fa-circle" style="color:green;"><span></a>
+                 <a href="{{URL::to('/active-product='.$p->id)}}"><span class="fa-style fa fa-circle" style="color:green;"><span></a>
             <?php } ?>
                 </span>
             </td>
-            <td>{{$pro->pro_number}}</td>
-            <td><span class="text-ellipsis">{{date('d-m-Y', strtotime($pro->created_at))}}</span></td>
+            <td>{{$p->pro_number}}</td>
+            <td><span class="text-ellipsis">{{date('d-m-Y', strtotime($p->created_at))}}</span></td>
             <td>
-              <a href="{{URL::to('/edit-product='.$pro->id)}}" ui-toggle-class="">
+              <a href="{{URL::to('/edit-product='.$p->id)}}" ui-toggle-class="">
                 <i class="fa fa-pencil-square-o text-success text-active"></i>
               </a>
-                <a href="{{URL::to('/delete-product='.$pro->id)}}" ui-toggle-class="" onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')">
+                <a href="{{URL::to('/delete-product='.$p->id)}}" ui-toggle-class="" onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')">
                 <i class="fa fa-times text-danger text"></i>
               </a>
             </td>

@@ -19,6 +19,10 @@ Route::get('/index', 'HomeController@index');
 Route::get('/product','HomeController@all_product');
 Route::get('/account','HomeController@account');
 Route::get('/search','HomeController@search');
+//Brand
+Route::get('/brand={id}','BrandProduct@show_brand_home');
+Route::get('/product-detail={key}','ProductController@product_detail');
+
 
 
 //Admin
@@ -44,3 +48,6 @@ Route::get('/unactive-product={pro_id}','ProductController@unactive_product');
 Route::get('/active-product={pro_id}','ProductController@active_product');
 Route::post('/save-product','ProductController@save_product');
 Route::post('/update-product={pro_id}','ProductController@update_product');
+
+//cart
+Route::get('/cart','CartController@cart');

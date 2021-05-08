@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,7 +50,7 @@
                                     <div class="dropdown-content">
                                         <ul>
                                             @foreach ($categories as $cate) 
-                                            <li><a href="brand_detail.php">{{$cate->c_name}}</a></li>
+                                            <li><a href="{{URL::to('/brand='.$cate->id)}}">{{$cate->c_name}}</a></li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -62,7 +61,7 @@
                         </ul>
                     </nav>
                     <div class="cart">
-                        <a href="cart.php"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
+                        <a href="{{URL::to("/cart")}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
                     </div>
                     <img src="{{asset('public/frontend/images/menu.png')}}" class="menu-icon" 
                     onclick="menutoggle()">
@@ -116,8 +115,8 @@
         <div class="row">
             @foreach($pro_sale as $sale) 
                 <div class="col-4">
-                    <a href="{{('product_detail='.$sale->id)}}"><img src="{{"public/uploads/".$sale->pro_view.""}}"></a>
-                    <a href="{{('product_detail='.$sale->id)}}"><h4>{{$sale->pro_name}}</h4></a>
+                    <a href="{{URL::to('product-detail='.$sale->pro_keyword)}}"><img src="{{"public/uploads/".$sale->pro_view.""}}"></a>
+                    <a href="{{URL::to('product-detail='.$sale->pro_keyword)}}"><h4>{{$sale->pro_name}}</h4></a>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -125,7 +124,7 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star-o"></i>
                     </div>
-                    <p style="text-align: right; color: red;">{{number_format($sale->pro_price)}}</p>
+                    <p style="text-align: right; color: red;">{{number_format($sale->pro_price)." VNĐ"}}</p>
                 </div>
             @endforeach
         </div>
@@ -133,8 +132,8 @@
         <div class="row">
             @foreach($pro_hot as $hot) 
                 <div class="col-4">
-                    <a href="{{('product_detail='.$hot->id)}}"><img src="{{"public/uploads/".$hot->pro_view.""}}"></a>
-                    <a href="{{('product_detail='.$hot->id)}}"><h4>{{$hot->pro_name}}</h4></a>
+                    <a href="{{URL::to('product-detail='.$hot->pro_keyword)}}"><img src="{{"public/uploads/".$hot->pro_view.""}}"></a>
+                    <a href="{{URL::to('product-detail='.$hot->pro_keyword)}}"><h4>{{$hot->pro_name}}</h4></a>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -142,7 +141,7 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star-o"></i>
                     </div>
-                    <p style="text-align: right; color: red;">{{number_format($hot->pro_price)}}</p>
+                    <p style="text-align: right; color: red;">{{number_format($hot->pro_price)." VNĐ"}}</p>
                 </div>
             @endforeach
         </div>
@@ -150,8 +149,8 @@
         <div class="row">
              @foreach($pro_new as $new) 
                 <div class="col-4">
-                    <a href="{{('product_detail='.$new->id)}}"><img src="{{"public/uploads/".$new->pro_view.""}}"></a>
-                    <a href="{{('product_detail='.$new->id)}}"><h4>{{$new->pro_name}}</h4></a>
+                    <a href="{{URL::to('product-detail='.$new->pro_keyword)}}"><img src="{{"public/uploads/".$new->pro_view.""}}"></a>
+                    <a href="{{URL::to('product-detail='.$new->pro_keyword)}}"><h4>{{$new->pro_name}}</h4></a>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -159,7 +158,7 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star-o"></i>
                     </div>
-                    <p style="text-align: right; color: red;">{{number_format($new->pro_price)}}</p>
+                    <p style="text-align: right; color: red;">{{number_format($new->pro_price)." VNĐ"}}</p>
                 </div>
             @endforeach
         </div>
@@ -167,8 +166,8 @@
         <div class="row">
              @foreach($pro_new as $new) 
                 <div class="col-4">
-                    <a href="{{('product_detail='.$new->id)}}"><img src="{{"public/uploads/".$new->pro_view.""}}"></a>
-                    <a href="{{('product_detail='.$new->id)}}"><h4>{{$new->pro_name}}</h4></a>
+                    <a href="{{URL::to('product-detail='.$new->pro_keyword)}}"><img src="{{"public/uploads/".$new->pro_view.""}}"></a>
+                    <a href="{{URL::to('product-detail='.$new->pro_keyword)}}"><h4>{{$new->pro_name}}</h4></a>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -176,7 +175,7 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star-o"></i>
                     </div>
-                    <p style="text-align: right; color: red;">{{number_format($new->pro_price)}}</p>
+                    <p style="text-align: right; color: red;">{{number_format($new->pro_price)." VNĐ"}}</p>
                 </div>
             @endforeach
         </div>
@@ -187,7 +186,7 @@
                  @foreach ($categories as $cate) 
 
                     <div class="col-5">
-                        <a href="brand_detail.php"><img src="{{"public/uploads/brand/".$cate->c_images.""}}"></a>
+                        <a href="{{URL::to('/brand='.$cate->id)}}"><img src="{{"public/uploads/brand/".$cate->c_images.""}}"></a>
                     </div>
                 @endforeach
             </div>

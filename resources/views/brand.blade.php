@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Store - Sản Phẩm</title>
+    <title>Green Store - Sản Phẩm </title>
     <link rel = "icon" href ="{{asset('public/backend/images/icon.png')}}" type = "image/x-icon">
     <link rel="stylesheet" href="{{asset('public/frontend/css/style.css')}}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -85,7 +85,7 @@
         </div>
 
         <div class="row">
-            @foreach ($pro as $p )
+            @foreach ($pro as $p)
             <div class="col-4">
                 <a href="{{URL::to('product-detail='.$p->pro_keyword)}}"><img src="{{"public/uploads/".$p->pro_view.""}}"></a>
                 <a href="{{URL::to('product-detail='.$p->pro_keyword)}}"><h4>{{$p->pro_name}}</h4></a>

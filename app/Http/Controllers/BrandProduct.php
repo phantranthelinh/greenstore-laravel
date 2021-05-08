@@ -100,4 +100,10 @@ class BrandProduct extends Controller
         Session::put('msg','Cập nhật thương hiệu thành công!');
         return Redirect::to('show-brand');
     }
+    //End admin
+    public function show_brand_home($id){
+        $pro = DB::table('products')->join('categories','products.pro_category_id','=','categories.id')->where('categories.id',$id)->where('products.pro_active','1')->get();
+        $categories = DB::table('categories')->where('c_active','1')->get();
+        return view('brand')->with('pro',$pro)->with('categories',$categories);
+    }
 }

@@ -56,6 +56,14 @@
                                 <div class="form-group">
                                         <label>Mô tả sản phẩm</label>
                                         <div class="col-lg-15">
+                                            <textarea rows="4" class="form-control "  name="content" required="" value="{{$pro->pro_description}}">
+                                                
+                                            </textarea>
+                                        </div>
+                                </div>
+                                <div class="form-group">
+                                        <label>Nội dung sản phẩm</label>
+                                        <div class="col-lg-15">
                                             <textarea rows="4" class="form-control "  name="content" required="" value="{{$pro->pro_content}}">
                                                 
                                             </textarea>
