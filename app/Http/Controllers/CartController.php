@@ -1,12 +1,38 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
+use DB;
+use App\Http\Requests;
+use Session;
+use Cart;
+use Illuminate\Support\Facades\Redirect;
+session_start();
 class CartController extends Controller
 {
-    public function cart(){
-    	return view('cart');
+
+    public function save_cart(Request $req){
+    	$pro_id = $req->pro_id;
+    	$quantity =$req->qty;
+    	$size_pro = $req->size_product;
+    	$product_info = DB::table('products')->where('products.id',$pro_id)->first();
+    	$data['id']=$pro_id;
+    	$data['qty']=$quantity;
+    	$data['name']=$product_info->pro_name;
+    	$data['price']=$product_info->pro_price;
+    	$data['weight']='123';
+    	$data['options']['image']=$product_info->pro_view;
+    	Cart::add($data);
+
+
+    	return Redirect::to('show-cart');
+    }
+    public function show_cart(){
+    	$categories = DB::table('categories')->where('c_active','1')->get();
+    	return view('cart.show-cart')->with('categories',$categories);
+    }
+    public function remove_cart($rowId){
+    	Cart::update($rowId,0);
+    	return Redirect::to('show-cart');
     }
 }

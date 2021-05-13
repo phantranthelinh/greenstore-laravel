@@ -21,7 +21,7 @@ Route::get('/account','HomeController@account');
 Route::get('/search','HomeController@search');
 //Brand
 Route::get('/brand={id}','BrandProduct@show_brand_home');
-Route::get('/product-detail={key}','ProductController@product_detail');
+Route::get('/product-detail={id}','ProductController@product_detail');
 
 
 
@@ -50,4 +50,6 @@ Route::post('/save-product','ProductController@save_product');
 Route::post('/update-product={pro_id}','ProductController@update_product');
 
 //cart
-Route::get('/cart','CartController@cart');
+Route::post('/save-cart','CartController@save_cart');
+Route::get('/show-cart','CartController@show_cart');
+Route::get('/remove-cart={rowId}','CartController@remove_cart');

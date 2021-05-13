@@ -13,14 +13,14 @@ class HomeController extends Controller
     public function index(){
     	$slides = DB::table('slides')->get();
     	$categories = DB::table('categories')->where('c_active','1')->get();
-    	$pro_new = DB::table('products')->where('pro_active','1')->orderby('created_at','desc')->limit(4)->get();
+    	$pro_new = DB::table('products')->where('pro_active','1')->orderby('created_at','asc')->limit(4)->get();
     	$pro_sale = DB::table('products')->where('pro_active','1')->where('pro_sale','>0')->limit(8)->get();
     	$pro_hot = DB::table('products')->where('pro_active','1')->where('pro_hot','1')->limit(4)->get();
     	return view('welcome')->with('slides',$slides)->with('categories',$categories)->with('pro_new',$pro_new)->with('pro_sale',$pro_sale)->with('pro_hot',$pro_hot);
     }
     public function all_product(){
     	$categories = DB::table('categories')->get();
-    	$pro = DB::table('products')->where('pro_active','1')->orderby('created_at','desc')->get();
+    	$pro = DB::table('products')->where('pro_active','1')->orderby('created_at','asc')->get();
     	return view('products')->with('pro',$pro)->with('categories',$categories);
     }
     public function account(){

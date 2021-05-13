@@ -56,7 +56,7 @@
                         </ul>
                     </nav>
                     <div class="cart">
-                        <a href="cart.php"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
+                        <a href="{{URL::to('/show-cart')}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
                     </div>
                     <img src="{{asset('public/frontend/images/menu.png')}}" class="menu-icon" 
                     onclick="menutoggle()">

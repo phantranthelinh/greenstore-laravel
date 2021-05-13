@@ -23,7 +23,7 @@ class ProductController extends Controller
     }
     public function show_product(){
         $this->checkLogin();
-    	$all = DB::table('products')->join('categories','products.pro_author_id','=','categories.id')->join('admins','categories.c_author_id','=','admins.id')->get();
+    	$all = DB::table('products')->join('categories','products.pro_author_id','=','categories.id')->join('admins','categories.c_author_id','=','admins.id')->select('products.id','products.pro_name','products.pro_view','products.pro_price','products.pro_sale','categories.c_name','admins.name','products.pro_number','products.created_at','products.pro_active')->get();
     	$manager = view('admin.show-product')->with('all_pro',$all);
     	return view('admin-layout')->with('all_pro',$manager);
     }
@@ -110,12 +110,19 @@ class ProductController extends Controller
     Session::put('msg','Cập nhật sản phẩm thành công!');
     return Redirect::to('show-product');}
     //End admin
-    public function product_detail($key){
-        $pro =DB::table('products')->where('products.pro_keyword',$key)->where('products.pro_active','1')->get();
+    public function product_detail($id){
+        $pro =DB::table('products')->join('categories','categories.id','=','products.pro_category_id')->where('products.id',$id)->where('products.pro_active','1')->select('products.id','products.pro_name','products.pro_view','products.pro_price','products.pro_sale','products.pro_category_id','products.pro_keyword','products.pro_description','products.pro_content')->get();
         $categories = DB::table('categories')->where('c_active','1')->get();
-        $image_pro = DB::table('images')->join('products','images.im_product_id','=','products.id')->where('products.pro_keyword',$key)->get();
-        $size_pro = DB::table('size')->join('products','size.size_product_id','=','products.id')->where('products.pro_keyword',$key)->get();
+        $image_pro = DB::table('images')->join('products','images.im_product_id','=','products.id')->where('products.id',$id)->limit(4)->get();
+        $size_pro = DB::table('size')->join('products','size.size_product_id','=','products.id')->where('products.id',$id)->get();
 
-        return view('product-detail')->with('pro',$pro)->with('categories',$categories)->with('images',$image_pro)->with('size_pro',$size_pro);
+        foreach ($pro as $key => $value) {
+            $category_id = $value->pro_category_id;
+        }
+        $related_pro =DB::table('products')->join('categories','categories.id','=','products.pro_category_id')->where('products.pro_category_id',$category_id)->where('products.pro_active','1')->whereNotIN('products.id',[$id])->select('products.id','products.pro_name','products.pro_view','products.pro_price','products.pro_sale','categories.c_name','products.pro_number','products.created_at','products.pro_active')->limit(4)->get();
+        return view('product-detail')->with('pro',$pro)->with('categories',$categories)->with('images',$image_pro)->with('size_pro',$size_pro)->with('related',$related_pro);
     }
+
+
+
 }

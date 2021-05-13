@@ -626,10 +626,12 @@ form input{
     border: 1px solid #ccc;
 }
 form .btn{
-    width: 100%;
+    width: 60%;
     border: none;
     cursor: pointer;
     margin: 10px 0;
+    font-family: 'Roboto Slab', serif;
+    padding: 2px;
 }
 form .btn:focus{
     outline: none;

@@ -62,7 +62,7 @@
                         </ul>
                     </nav>
                     <div class="cart">
-                        <a href="{{URL::to("/cart")}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
+                        <a href="{{URL::to("/show-cart")}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
                     </div>
                     <img src="{{asset('public/frontend/images/menu.png')}}" class="menu-icon" 
                     onclick="menutoggle()">
@@ -87,8 +87,8 @@
         <div class="row">
             @foreach ($pro as $p )
             <div class="col-4">
-                <a href="{{URL::to('product-detail='.$p->pro_keyword)}}"><img src="{{"public/uploads/".$p->pro_view.""}}"></a>
-                <a href="{{URL::to('product-detail='.$p->pro_keyword)}}"><h4>{{$p->pro_name}}</h4></a>
+                <a href="{{URL::to('product-detail='.$p->id)}}"><img src="{{"public/uploads/".$p->pro_view.""}}"></a>
+                <a href="{{URL::to('product-detail='.$p->id)}}"><h4>{{$p->pro_name}}</h4></a>
                 <div class="rating">
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
@@ -113,7 +113,7 @@
         <div class="container">
             <div class="row">
                 <div class="footer-col-2">
-                    <a href="index.php"><img src="{{("public/frontend/images/logo-footer.png")}}"></a>
+                    <a href="{{URL::to('/index')}}"><img src="{{("public/frontend/images/logo-footer.png")}}"></a>
                     <p>Mục đích cuối cùng của chúng tôi là đem lại những đôi giày tốt nhất <br>với giá cả phù hợp nhất để giành cho các bạn
 </p>
                 </div>

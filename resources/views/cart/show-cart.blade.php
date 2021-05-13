@@ -3,9 +3,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Store - Chi tiết sản phẩm</title>
+    <title>Green Store - Giỏ hàng</title>
     <link rel = "icon" href ="{{asset('public/backend/images/icon.png')}}" type = "image/x-icon">
     <link rel="stylesheet" href="{{asset('public/frontend/css/style.css')}}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swa   p"
@@ -17,7 +17,7 @@
 </head>
 
 <body>
-     <div class="header">
+    <div class="header">
         <header>
         <div class="container">
                 <div class="navbar">
@@ -62,7 +62,7 @@
                         </ul>
                     </nav>
                     <div class="cart">
-                        <a href="{{URL::to("/show-cart")}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
+                        <a href="{{URL::to("/cart")}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
                     </div>
                     <img src="{{asset('public/frontend/images/menu.png')}}" class="menu-icon" 
                     onclick="menutoggle()">
@@ -72,82 +72,59 @@
         <br><br><br><br><br><br>   
            
 </div>
+    @php
+        $content = Cart::content();
+    @endphp
+    <!-- -----------------cart item details------------------- -->
+    <div class="small-container cart-page">
+        <table>
+                <tr>
+                    <th>Sản Phẩm</th>
+                    <th>Số Lượng</th>
+                    <th>Giá</th>
+                </tr>
+                @foreach ($content as $cart)
+                        <tr>
+                            <td>
+                                <div class="cart-info">
+                                    <img src="{{'public/uploads/'.$cart->options->image}}" width="150px">
+                                    <div>
+                                        <p>{{$cart->name}}</p>
+                                        <small style="color:red;">{{number_format($cart->price)." VND"}}</small>
+                                        <br>
+                                        <a href="{{URL::to('remove-cart='.$cart->rowId)}}">Remove</a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><input type="number" value="{{$cart->qty}}"></td>
+                            <td style="color:red;" >
+                                <?php 
+                                $Subtotal = $cart->price * $cart->qty ;
+                                echo number_format($Subtotal). " VNĐ";
+                                ?>
+                            </td>
+                        </tr>
+                @endforeach
+        </table>
 
-    <!-- ---------- single Products detail ----------- -->
-    <div class="small-container single-product">
-        <div class="row">
-        <?php if(isset($_COOKIE['msg'])){ ?>
-            <p style="color:green; transition: 0.6s ease;"><?=$_COOKIE['msg']?></p>
-        <?php } ?>
+        <div class="total-price">
+            <table>
+                <tr>
+                    <td>Tax</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td>{{Cart::subtotal()." VND"}}</td>
+                </tr>
+            </table>
+
         </div>
-        <div class="row">
-            <div class="col-2">
-                @foreach ($pro as $p) 
-              {{--   <figure class="zoom" style="background:url('{{asset("public/uploads/".$p->pro_view."")}}')" onmousemove="zoom(event)" ontouchmove="zoom(event)"> --}}
-
-                        <img src="{{asset("public/uploads/".$p->pro_view."")}}" width="100%" class="small-img" id="productImg">
-{{--                 </figure> --}}
-                @endforeach
-                <div class="small-img-row">
-                    @foreach ($images as $im) 
-                    <div class="small-img-rol">
-                        <img src="{{asset("public/uploads/".$im->image."")}}" width="100%" class="small-img">
-                    </div>
-                    @endforeach
-                </div>
-
-            </div>
-            <div class="col-3">
-                @foreach($pro as $p)
-                    <p><a href="{{URL::to('/index')}}">Home</a>/ {{$p->pro_keyword}}</p>
-                    <form action="{{URL::to('save-cart')}}" method="post">
-                        {{csrf_field()}}
-                    <h1>{{$p->pro_name}}</h1>
-                    <input type="hidden" value="{{$p->id}}" name="pro_id">
-                    <h4 style="color:red;">{{number_format($p->pro_price)." VNĐ"}}</h4>
-                    <select>
-                        <option>Chọn Size</option>
-                        @foreach ($size_pro as $size )
-                            <option value="{{$size->size}}" name="size_product">{{$size->size}}</option>
-                        @endforeach
-                    </select>
-                    <p>{{$p->pro_description}}</p>
-                        <input type="number" min="1" max="20" value="1" name="qty">
-                        <input type="submit" class="btn" name="add-cart" value="Thêm giỏ hàng">
-                        <br>
-                        <h3>Chi tiết sản phẩm
-                            <i class="fa fa-indent"></i>
-                        </h3>
-                    <p>{{$p->pro_content}}</p>
-                    </form>
-                @endforeach
-            </div>
+        <div class="ok">
+            <a href="#"><button class="btn">Thanh Toán</button></a>
         </div>
     </div>
 
-
-  
-
-<!-- ---------------Products----------------- -->
-    <div class="small-container">
-        <h2 class="title">SẢN PHẨM TƯƠNG TỰ</h2>
-        <div class="row">
-            @foreach ($related as $pro)
-                <div class="col-4">
-                    <img src="{{"public/uploads/".$pro->pro_view.""}}">
-                    <a href="{{URL::to('product-detail='.$pro->id)}}"><h4>{{$pro->pro_name}}</h4></a>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p style="color:red;text-align: right;">{{number_format($pro->pro_price)." VNĐ"}}</p>
-                </div>
-            @endforeach
-        </div>
-    </div>
     <div class="footer">
         <div class="container">
             <div class="row">
@@ -170,41 +147,7 @@
         </div>
     </div>
     
-
-
-<!-- ------------------- JS for  product gallery------------------------         -->
-        <script>
-            var ProductImg = document.getElementById("productImg");
-            var SmallImg = document.getElementsByClassName("small-img");
-
-            SmallImg[0].onclick = function()
-            {
-                ProductImg.src = SmallImg[0].src;
-            }
-            SmallImg[1].onclick = function()
-            {
-                ProductImg.src = SmallImg[1].src;
-            }
-            SmallImg[2].onclick = function()
-            {
-                ProductImg.src = SmallImg[2].src;
-            }
-            SmallImg[3].onclick = function()
-            {
-                ProductImg.src = SmallImg[3].src;
-            }
-            SmallImg[4].onclick = function()
-            {
-                ProductImg.src = SmallImg[4].src;
-            }
-            function zoom(e) {
-            var zoomer = e.currentTarget;
-            e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
-            e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
-            x = (offsetX / zoomer.offsetWidth) * 100
-            y = (offsetY / zoomer.offsetHeight) * 100
-            zoomer.style.backgroundPosition = x + "% " + y + "%";
-            }
+     <script>
    var MenuItems = document.getElementById("MenuItems");
         
     MenuItems.style.maxHeight = "0px";

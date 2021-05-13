@@ -102,7 +102,7 @@ class BrandProduct extends Controller
     }
     //End admin
     public function show_brand_home($id){
-        $pro = DB::table('products')->join('categories','products.pro_category_id','=','categories.id')->where('categories.id',$id)->where('products.pro_active','1')->get();
+        $pro = DB::table('products')->join('categories','products.pro_category_id','=','categories.id')->where('categories.id',$id)->where('products.pro_active','1')->select('products.id','products.pro_name','products.pro_view','products.pro_price','products.pro_sale','products.pro_category_id','products.pro_keyword','products.pro_description','products.pro_content')->get();
         $categories = DB::table('categories')->where('c_active','1')->get();
         return view('brand')->with('pro',$pro)->with('categories',$categories);
     }

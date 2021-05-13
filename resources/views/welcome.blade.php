@@ -61,7 +61,7 @@
                         </ul>
                     </nav>
                     <div class="cart">
-                        <a href="{{URL::to("/cart")}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
+                        <a href="{{URL::to("/show-cart")}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
                     </div>
                     <img src="{{asset('public/frontend/images/menu.png')}}" class="menu-icon" 
                     onclick="menutoggle()">
@@ -115,8 +115,8 @@
         <div class="row">
             @foreach($pro_sale as $sale) 
                 <div class="col-4">
-                    <a href="{{URL::to('product-detail='.$sale->pro_keyword)}}"><img src="{{"public/uploads/".$sale->pro_view.""}}"></a>
-                    <a href="{{URL::to('product-detail='.$sale->pro_keyword)}}"><h4>{{$sale->pro_name}}</h4></a>
+                    <a href="{{URL::to('product-detail='.$sale->id)}}"><img src="{{"public/uploads/".$sale->pro_view.""}}"></a>
+                    <a href="{{URL::to('product-detail='.$sale->id)}}"><h4>{{$sale->pro_name}}</h4></a>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -132,8 +132,8 @@
         <div class="row">
             @foreach($pro_hot as $hot) 
                 <div class="col-4">
-                    <a href="{{URL::to('product-detail='.$hot->pro_keyword)}}"><img src="{{"public/uploads/".$hot->pro_view.""}}"></a>
-                    <a href="{{URL::to('product-detail='.$hot->pro_keyword)}}"><h4>{{$hot->pro_name}}</h4></a>
+                    <a href="{{URL::to('product-detail='.$hot->id)}}"><img src="{{"public/uploads/".$hot->pro_view.""}}"></a>
+                    <a href="{{URL::to('product-detail='.$hot->id)}}"><h4>{{$hot->pro_name}}</h4></a>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -149,8 +149,8 @@
         <div class="row">
              @foreach($pro_new as $new) 
                 <div class="col-4">
-                    <a href="{{URL::to('product-detail='.$new->pro_keyword)}}"><img src="{{"public/uploads/".$new->pro_view.""}}"></a>
-                    <a href="{{URL::to('product-detail='.$new->pro_keyword)}}"><h4>{{$new->pro_name}}</h4></a>
+                    <a href="{{URL::to('product-detail='.$new->id)}}"><img src="{{"public/uploads/".$new->pro_view.""}}"></a>
+                    <a href="{{URL::to('product-detail='.$new->id)}}"><h4>{{$new->pro_name}}</h4></a>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -166,8 +166,8 @@
         <div class="row">
              @foreach($pro_new as $new) 
                 <div class="col-4">
-                    <a href="{{URL::to('product-detail='.$new->pro_keyword)}}"><img src="{{"public/uploads/".$new->pro_view.""}}"></a>
-                    <a href="{{URL::to('product-detail='.$new->pro_keyword)}}"><h4>{{$new->pro_name}}</h4></a>
+                    <a href="{{URL::to('product-detail='.$new->id)}}"><img src="{{"public/uploads/".$new->pro_view.""}}"></a>
+                    <a href="{{URL::to('product-detail='.$new->id)}}"><h4>{{$new->pro_name}}</h4></a>
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -196,7 +196,7 @@
         <div class="container">
             <div class="row">
                 <div class="footer-col-2">
-                    <a href="index.php"><img src="{{("public/frontend/images/logo-footer.png")}}"></a>
+                    <a href="{{URL::to('/index')}}"><img src="{{("public/frontend/images/logo-footer.png")}}"></a>
                     <p>Mục đích cuối cùng của chúng tôi là đem lại những đôi giày tốt nhất <br>với giá cả phù hợp nhất để giành cho các bạn
 </p>
                 </div>
