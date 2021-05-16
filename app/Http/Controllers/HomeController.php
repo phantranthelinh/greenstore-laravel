@@ -19,7 +19,7 @@ class HomeController extends Controller
     	return view('welcome')->with('slides',$slides)->with('categories',$categories)->with('pro_new',$pro_new)->with('pro_sale',$pro_sale)->with('pro_hot',$pro_hot);
     }
     public function all_product(){
-    	$categories = DB::table('categories')->get();
+    	$categories = DB::table('categories')->where('categories.c_active','1')->get();
     	$pro = DB::table('products')->where('pro_active','1')->orderby('created_at','asc')->get();
     	return view('products')->with('pro',$pro)->with('categories',$categories);
     }
@@ -27,7 +27,12 @@ class HomeController extends Controller
     	$categories = DB::table('categories')->where('c_active','1')->get();
     	return view('account')->with('categories',$categories);
     }
-    public function search(){
-    	return view('search');
+    public function search(Request $req){
+        $keywords = $req->search;
+        Session::put('keywords',$keywords);
+    	$categories = DB::table('categories')->where('categories.c_active','1')->get();
+        $search_pro = DB::table('products')->where('pro_active','1')->where('pro_name','like','%'.$keywords.'%')->orderby('created_at','asc')->groupby('products.id')->get();
+        return view('pages.search')->with('pro',$search_pro)->with('categories',$categories);
     }
+
 }

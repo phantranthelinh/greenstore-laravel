@@ -25,11 +25,11 @@
                         <a href="{{URL::to('/index')}}"><img src="{{asset('public/frontend/images/logo.png')}}" width="150px"></a>
                     </div>
                     <div class="search">
-                            <form method="get" action="">
+                          <form method="POST" action="{{URL::to('/search')}}">
+                                {{csrf_field()}}
                                 <input type="text" name="search" placeholder="Tìm kiếm ...">
                                 <span><i class="fas fa-search"></i></span>
-                            </form>
-                    </div>
+                            </form>                   </div>
                     <nav>
                         <ul id="MenuItems">
                             <li><a href="{{URL::to('/index')}}">TRANG CHỦ</a></li>
@@ -57,8 +57,16 @@
                                     </div>
                                 </li>
                             </div>
-                                <li><a href="{{URL::to('/account')}}">TÀI KHOẢN</a></li>
+                               <?php 
+                                $user_id = Session::get('id_user');
+                                if ($user_id ==NULL) {
+                                 ?>
+                                <li><a href="{{URL::to('login-checkout')}}">ĐĂNG NHẬP</a></li>
                                 </li>
+                                <?php }else{ ?>
+                                <li><a href="{{URL::to('logout-checkout')}}">ĐĂNG XUẤT</a></li>
+                                </li>
+                                <?php } ?>
                         </ul>
                     </nav>
                     <div class="cart">

@@ -1,7 +1,5 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,7 +55,7 @@
                                     </div>
                                 </li>
                             </div>
-                                <?php 
+                                 <?php 
                                 $user_id = Session::get('id_user');
                                 if ($user_id ==NULL) {
                                  ?>
@@ -77,9 +75,33 @@
                 </div>
             </div>
         </header>
-        <br><br><br><br><br><br>   
+        <br><br><br>   
            
 </div>
+    <div class="small-container cart-page">
+        <div class="row">
+            <div class="col-2">
+                <h2 class="title">Điền thông tin gửi hàng</h2>
+                <form action="{{URL::to('/save-checkout')}}" method="POST">
+                    {{csrf_field()}}
+                    <input type="hidden" name="id_user" value="{{Session::get('id_user')}}">
+                    <input type="email" name="email" placeholder="Email*">
+                    <input type="text" name="name" placeholder="Họ và tên*">
+                    <input type="text" name="phone_number" placeholder="Số điện thoại*">
+                    <input type="text" name="address" placeholder="Địa chỉ*">
+                    <h4 style="text-align: left;color: #555;">Ghi chú gửi hàng</h4>
+                    <textarea cols="120" rows="10" placeholder="Ghi chú đơn hàng của bạn" style="padding:10px ;" name="notes"></textarea>
+                    <div class="ok">
+                        <input type="submit" value="Gửi" class="btn" style="float: right; width: 250px;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    
+
     @php
         $content = Cart::content();
     @endphp
@@ -140,16 +162,6 @@
                 </tr>
             </table>
 
-        </div>
-        <div class="ok">
-            <?php 
-            $id_user = Session::get('id_user');
-            if($id_user!=NULL) {
-             ?>
-            <a href="{{URL::to('checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php }else{ ?>
-            <a href="{{URL::to('login-checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php } ?>
         </div>
     </div>
 

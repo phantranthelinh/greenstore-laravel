@@ -3,12 +3,12 @@
 <html lang="en">
 
 <head>
-     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Store - Giỏ hàng</title>
+    <title>Green Store - Sản Phẩm</title>
     <link rel = "icon" href ="{{asset('public/backend/images/icon.png')}}" type = "image/x-icon">
     <link rel="stylesheet" href="{{asset('public/frontend/css/style.css')}}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swa   p"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> --}}
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -25,7 +25,8 @@
                         <a href="{{URL::to('/index')}}"><img src="{{asset('public/frontend/images/logo.png')}}" width="150px"></a>
                     </div>
                     <div class="search">
-                            <form method="get" action="">
+                          <form method="POST" action="{{URL::to('/search')}}">
+                                {{csrf_field()}}
                                 <input type="text" name="search" placeholder="Tìm kiếm ...">
                                 <span><i class="fas fa-search"></i></span>
                             </form>
@@ -57,11 +58,11 @@
                                     </div>
                                 </li>
                             </div>
-                                <?php 
+                               <?php 
                                 $user_id = Session::get('id_user');
                                 if ($user_id ==NULL) {
                                  ?>
-                                <li><a href="{{URL::to('login-checkout')}}">ĐĂNG NHẬP</a></li>
+                                <li><a href="{{URL::to('login')}}">ĐĂNG NHẬP</a></li>
                                 </li>
                                 <?php }else{ ?>
                                 <li><a href="{{URL::to('logout-checkout')}}">ĐĂNG XUẤT</a></li>
@@ -70,7 +71,7 @@
                         </ul>
                     </nav>
                     <div class="cart">
-                        <a href="{{URL::to("/cart")}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
+                        <a href="{{URL::to("/show-cart")}}"><img src="{{asset('public/frontend/images/cart.png')}}" width="30px" height="30px"></a>
                     </div>
                     <img src="{{asset('public/frontend/images/menu.png')}}" class="menu-icon" 
                     onclick="menutoggle()">
@@ -80,79 +81,43 @@
         <br><br><br><br><br><br>   
            
 </div>
-    @php
-        $content = Cart::content();
-    @endphp
-    <!-- -----------------cart item details------------------- -->
-    <div class="small-container cart-page">
-        <table>
-                <tr>
-                    <th>Sản Phẩm</th>
-                    <th>Số Lượng</th>
-                    <th>Giá</th>
-                </tr>
-                @foreach ($content as $cart)
-                        <tr>
-                            <td>
-                                <div class="cart-info">
-                                    <img src="{{'public/uploads/'.$cart->options->image}}" width="150px">
-                                    <div>
-                                        <p>{{$cart->name}}</p>
-                                        <small style="color:red;">{{number_format($cart->price)." VND"}}</small>
-                                        
-                                        <br>
-                                        <a href="{{URL::to('remove-cart='.$cart->rowId)}}">Remove</a>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <form action="{{URL::to('/update-cart-qty')}}" method="post">
-                                    {{csrf_field()}}
-                                <input type="number" value="{{$cart->qty}}" width="50%" name="qty" min="1" max="20">
-                                <input type="hidden" value="{{$cart->rowId}}" name="rowId_cart" class="qty">
-                                <input type="submit" value="Cập nhật" name="number-qty" class="btn" style="float: right;">
-                                </form>
-                            </td>
-                            <td style="color:red;" >
-                                <?php 
-                                $Subtotal = $cart->price * $cart->qty ;
-                                echo number_format($Subtotal). " VNĐ";
-                                ?>
-                            </td>
-                        </tr>
-                @endforeach
-        </table>
+    <div class="small-container">
 
-        <div class="total-price">
-            <table>
-                <tr>
-                    <td>Tổng</td>
-                    <td>{{Cart::subtotal()." VND"}}</td>
-                </tr>
-                <tr>
-                    <td>Phí vận chuyễn</td>
-                    <td>Miễn phí</td>
-                </tr>
-                <tr>
-                    <td>Thành tiền</td>
-                    <td>{{Cart::subtotal()." VND"}}</td>
-                </tr>
-            </table>
-
+        <div class="row row-2">
+            <h2>Tìm kiếm sản phẩm: {{Session::get('keywords')}}</h2>
+            <select onchange="this.options[this.selectedIndex].value && (window.location= this.options[this.selectedIndex].value)">
+                <option>Sắp xếp</option>
+                <option value="?field=pro_price&orderBy=desc">Sắp xếp giá từ Cao đến thấp</option>
+                <option value="?field=pro_price&orderBy=asc">Sắp xếp giá từ Thấp đến cao</option>
+                <option value="?field=pro_name&orderBy=asc">Sắp xếp theo tên</option>
+            </select>
         </div>
-        <div class="ok">
-            <?php 
-            $id_user = Session::get('id_user');
-            if($id_user!=NULL) {
-             ?>
-            <a href="{{URL::to('checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php }else{ ?>
-            <a href="{{URL::to('login-checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php } ?>
+
+        <div class="row">
+            @foreach ($pro as $p )
+            <div class="col-4">
+                <a href="{{URL::to('product-detail='.$p->id)}}"><img src="{{"public/uploads/".$p->pro_view.""}}"></a>
+                <a href="{{URL::to('product-detail='.$p->id)}}"><h4>{{$p->pro_name}}</h4></a>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p style="text-align: right; color:red;">{{number_format($p->pro_price)." VNĐ"}}</p>
+            </div>
+            @endforeach
+        </div>
+        
+        <div class="page-btn">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>&#8594;</span>
         </div>
     </div>
-
     <div class="footer">
         <div class="container">
             <div class="row">
@@ -174,9 +139,11 @@
             <p class="Copyright">Copyright 2021 - By TheLinhx</p>
         </div>
     </div>
-    
-     <script>
-   var MenuItems = document.getElementById("MenuItems");
+
+</body>
+</html>
+<script type="text/javascript">
+    var MenuItems = document.getElementById("MenuItems");
         
     MenuItems.style.maxHeight = "0px";
 
@@ -194,7 +161,7 @@
         var header = document.querySelector("header");
         header.classList.toggle("sticky",window.scrollY >0);
     })
-        </script>
+</script>
 </body>
 
 </html>

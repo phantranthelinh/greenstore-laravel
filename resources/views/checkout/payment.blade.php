@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Store - Giỏ hàng</title>
+    <title>Green Store - Thanh toán giỏ hàng</title>
     <link rel = "icon" href ="{{asset('public/backend/images/icon.png')}}" type = "image/x-icon">
     <link rel="stylesheet" href="{{asset('public/frontend/css/style.css')}}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swa   p"
@@ -57,7 +55,7 @@
                                     </div>
                                 </li>
                             </div>
-                                <?php 
+                                 <?php 
                                 $user_id = Session::get('id_user');
                                 if ($user_id ==NULL) {
                                  ?>
@@ -77,14 +75,19 @@
                 </div>
             </div>
         </header>
-        <br><br><br><br><br><br>   
+        <br><br><br>   
            
 </div>
+
+
+    
+
     @php
         $content = Cart::content();
     @endphp
     <!-- -----------------cart item details------------------- -->
     <div class="small-container cart-page">
+        <h2 class="title">Xem lại giỏ hàng và chọn hình thức thanh toán</h2>
         <table>
                 <tr>
                     <th>Sản Phẩm</th>
@@ -141,18 +144,30 @@
             </table>
 
         </div>
-        <div class="ok">
-            <?php 
-            $id_user = Session::get('id_user');
-            if($id_user!=NULL) {
-             ?>
-            <a href="{{URL::to('checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php }else{ ?>
-            <a href="{{URL::to('login-checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php } ?>
-        </div>
+        <form method="POST" action="{{URL::to('/order')}}">
+            {{csrf_field()}}
+            <div class="small-container payment">
+                <span>
+                    <label>
+                        <input type="checkbox" value="Bằng tiền mặt" name="checkbox_payment"> Nhận tiền mặt <i class="fas fa-money-bill-alt"></i>
+                    </label>
+                </span>
+                       <span>
+                    <label>
+                        <input type="checkbox" value="Bằng thẻ ATM" name="checkbox_payment"> Bằng thẻ ATM <i class="far fa-credit-card"></i>
+                    </label>
+                </span>
+                       <span>
+                    <label>
+                        <input type="checkbox" value="Paypal" name="checkbox_payment"> Paypal <i class="fab fa-cc-paypal"></i>
+                    </label>
+                </span>
+                <div class="ok">
+                    <input type="submit" value="Đặt hàng" class="btn" style="float: right; width: 250px;">
+                </div>
+            </div>
+        </form">
     </div>
-
     <div class="footer">
         <div class="container">
             <div class="row">

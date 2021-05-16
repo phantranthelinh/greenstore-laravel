@@ -24,10 +24,11 @@
                         <a href="{{URL::to('/index')}}"><img src="{{asset('public/frontend/images/logo.png')}}" width="150px"></a>
                     </div>
                     <div class="search">
-                        <form method="get" action="">
-                            <input type="text" name="search" placeholder="Tìm kiếm ...">
-                            <span><i class="fas fa-search"></i></span>
-                        </form>
+                            <form method="POST" action="{{URL::to('/search')}}">
+                                {{csrf_field()}}
+                                <input type="text" name="search" placeholder="Tìm kiếm ...">
+                                <span><i class="fas fa-search"></i></span>
+                            </form>
                     </div>
                     <nav>
                         <ul id="MenuItems">
@@ -56,8 +57,16 @@
                                     </div>
                                 </li>
                             </div>
-                                <li><a href="{{URL::to('/account')}}">TÀI KHOẢN</a></li>
+                                <?php 
+                                $user_id = Session::get('id_user');
+                                if ($user_id ==NULL) {
+                                 ?>
+                                <li><a href="{{URL::to('login-checkout')}}">ĐĂNG NHẬP</a></li>
                                 </li>
+                                <?php }else{ ?>
+                                <li><a href="{{URL::to('logout-checkout')}}">ĐĂNG XUẤT</a></li>
+                                </li>
+                                <?php } ?>
                         </ul>
                     </nav>
                     <div class="cart">
@@ -146,23 +155,6 @@
             @endforeach
         </div>
         <h2 class="title">SẢN PHẨM HOT</h2>
-        <div class="row">
-             @foreach($pro_new as $new) 
-                <div class="col-4">
-                    <a href="{{URL::to('product-detail='.$new->id)}}"><img src="{{"public/uploads/".$new->pro_view.""}}"></a>
-                    <a href="{{URL::to('product-detail='.$new->id)}}"><h4>{{$new->pro_name}}</h4></a>
-                    <div class="rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </div>
-                    <p style="text-align: right; color: red;">{{number_format($new->pro_price)." VNĐ"}}</p>
-                </div>
-            @endforeach
-        </div>
-        <h2 class="title">SẢN PHẨM SẮP HẾT</h2>
         <div class="row">
              @foreach($pro_new as $new) 
                 <div class="col-4">

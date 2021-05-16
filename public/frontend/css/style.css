@@ -310,7 +310,7 @@ img{
 }
 .title{
     text-align: center;
-    margin: 0 auto 80px;
+    margin: 0 auto 40px;
     position: relative;
     line-height: 60px;
     color: #555;
@@ -770,3 +770,18 @@ figure.zoom img {
 div .space{
     height: 30px;
 }
+form input[type=number]{
+    width: 50px;
+}
+.payment{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.payment span{
+    display: flex;
+    padding: 30px;
+
+}
+
