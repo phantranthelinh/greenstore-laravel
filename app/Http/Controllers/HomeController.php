@@ -31,7 +31,12 @@ class HomeController extends Controller
         $keywords = $req->search;
         Session::put('keywords',$keywords);
     	$categories = DB::table('categories')->where('categories.c_active','1')->get();
-        $search_pro = DB::table('products')->where('pro_active','1')->where('pro_name','like','%'.$keywords.'%')->orderby('created_at','asc')->groupby('products.id')->get();
+        $search_pro = DB::table('products')->where('pro_active','1')->where('pro_name','like','%'.$keywords.'%')->orderby('created_at','asc')->get();
+        $i=0;
+        foreach ($search_pro as $count) {
+            $i+=1;
+        }
+        Session::put('sl',$i);
         return view('pages.search')->with('pro',$search_pro)->with('categories',$categories);
     }
 

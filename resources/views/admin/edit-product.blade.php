@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Số lượng </label>
-                                    <input type="number" class="form-control"  value="{{$pro->pro_number}}" name="number">
+                                    <input type="number" class="form-control"  value="{{$pro->pro_number}}" name="number_pro">
                                 </div>
                                 <div class="form-group">
                                         <label>Mô tả sản phẩm</label>

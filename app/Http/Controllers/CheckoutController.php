@@ -16,6 +16,7 @@ class CheckoutController extends Controller
     	$categories = DB::table('categories')->where('c_active','1')->get();
     	return view('login-checkout')->with('categories',$categories);
     }
+   
     public function add_user(Request $req){
     	$data=array();
     	$data['email']=$req->email;
@@ -29,7 +30,9 @@ class CheckoutController extends Controller
     }
 	public function checkout(){
 		$categories = DB::table('categories')->where('c_active','1')->get();
-		return view('checkout.checkout')->with('categories',$categories);
+        $id_user = Session::get('id_user');
+        $users = DB::table('users')->where('users.id',$id_user)->get();
+		return view('checkout.checkout')->with('categories',$categories)->with('users',$users);
     }
     public function save_checkout(Request $req){
     	$data=array();
@@ -57,9 +60,11 @@ class CheckoutController extends Controller
     	$email = $req->email;
     	$passwd = md5($req->pass);
     	$rs = DB::table('users')->where('email',$email)->where('password',$passwd)->first();
-    	Session::put('id_user',$rs->id);
-
-    	return Redirect::to('checkout');
+        Session::put('id_user',$rs->id);
+        $content = Cart::content();
+        if($content->isEmpty()){
+            return Redirect::to('index');
+        }else{return Redirect::to('checkout');}
     }
     public function order(Request $req){
         //Payment
@@ -89,10 +94,45 @@ class CheckoutController extends Controller
 
         $order_detail = DB::table('order_detail')->insert($od_data);
         }
+        Cart::destroy();
+        
         return Redirect::to('show-order');
     }
     public function show_order(){
          $categories = DB::table('categories')->where('c_active','1')->get();
-        return view('checkout.show-order')->with('categories',$categories);
+         $id_user = Session::get('id_user');
+         $rs = DB::table('order_detail')->join('users','order_detail.od_user_id','=','users.id')
+         ->join('products','order_detail.od_pro_id','=','products.id')
+         ->join('transactions','order_detail.od_user_id','=','transactions.tr_user_id')
+         ->join('orders','orders.id','=','order_detail.od_order_id')
+         ->join('payment','payment.payment_id','=','orders.or_payment_id')
+         ->where('order_detail.od_user_id',$id_user)->orderby('order_detail.od_created_at','asc')->limit(1)->get();
+        return view('checkout.show-order')->with('categories',$categories)->with('ur_order',$rs);
+    
+    }
+
+    //admin 
+     public function checkLogin(){
+        $id = Session::get('id');
+        if($id){
+            return Redirect::to('dashboard');
+        }else{
+            return Redirect::to('admin')->send();
+        }
+    }
+    public function manager_order(){
+        $this->checkLogin();
+        $rs = DB::table('orders')->join('users','orders.or_user_id','=','users.id')
+         ->orderby('orders.created_at','desc')->select('orders.id','users.name','orders.or_total','orders.created_at','orders.or_status')->get();
+        $manager = view('admin.manager-order')->with('all_order',$rs);
+        return view('admin-layout')->with('all_order',$manager);
+    
+    }
+    public function view_order($orderId){
+        $this->checkLogin();
+        $rs = DB::table('orders')->join('users','orders.or_user_id','=','users.id')
+         ->orderby('orders.created_at','desc')->select('orders.id','users.name','orders.or_total','orders.created_at','orders.or_status')->get();
+        $manager = view('admin.view-order')->with('all_order',$rs);
+        return view('admin-layout')->with('all_order',$manager);
     }
 }

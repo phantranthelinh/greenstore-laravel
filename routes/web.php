@@ -23,7 +23,7 @@ Route::post('/search','HomeController@search');
 //Brand
 
 Route::get('/brand={id}','BrandProduct@show_brand_home');
-Route::get('/product-detail={id}','ProductController@product_detail');
+Route::get('/product-detail={id}','ProductController@product_detail')->name('product_detail');
 
 
 
@@ -71,3 +71,7 @@ Route::get('/payment','CheckoutController@payment');
 //Order
 Route::post('/order','CheckoutController@order');
 Route::get('/show-order','CheckoutController@show_order');
+//Manager order 
+
+Route::get('/manager-order','CheckoutController@manager_order');
+Route::get('/view-order={orderId}','CheckoutController@view_order');

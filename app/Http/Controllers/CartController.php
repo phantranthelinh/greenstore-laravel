@@ -20,10 +20,11 @@ class CartController extends Controller
     	$data['qty']=$quantity;
     	$data['name']=$product_info->pro_name;
     	$data['price']=$product_info->pro_price;
-    	$data['weight']='123';
+    	$data['weight']=$size_pro;
     	$data['options']['image']=$product_info->pro_view;
     	Cart::add($data);
-    	return Redirect::to('show-cart');
+        Session::put('msg','Thêm vào giỏ hàng thành công!');
+    	return Redirect()->Route('product_detail',[$pro_id]);
     }
     public function show_cart(){
     	$categories = DB::table('categories')->where('c_active','1')->get();

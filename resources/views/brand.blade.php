@@ -20,6 +20,9 @@
     <div class="header">
         <header>
         <div class="container">
+            <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+            </div>
                 <div class="navbar">
                     <div class="logo">
                         <a href="{{URL::to('/index')}}"><img src="{{asset('public/frontend/images/logo.png')}}" width="150px"></a>
@@ -58,16 +61,22 @@
                                     </div>
                                 </li>
                             </div>
-                                <?php 
-                                $user_id = Session::get('id_user');
-                                if ($user_id ==NULL) {
-                                 ?>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id !=NULL) {
+                            ?>
+                                <li><a href="{{URL::to('/show-order')}}">XEM ĐƠN HÀNG</a></li>
+                            <?php }?>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id ==NULL) {
+                            ?>
                                 <li><a href="{{URL::to('login-checkout')}}">ĐĂNG NHẬP</a></li>
                                 </li>
-                                <?php }else{ ?>
+                            <?php }else{ ?>
                                 <li><a href="{{URL::to('logout-checkout')}}">ĐĂNG XUẤT</a></li>
                                 </li>
-                                <?php } ?>
+                            <?php } ?>
                         </ul>
                     </nav>
                     <div class="cart">
@@ -161,6 +170,14 @@
         var header = document.querySelector("header");
         header.classList.toggle("sticky",window.scrollY >0);
     })
+    window.onscroll = function() {myFunction()};
+
+    function myFunction() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+    }
 </script>
 </body>
 

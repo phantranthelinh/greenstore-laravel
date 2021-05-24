@@ -83,6 +83,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </li>
                 <li class="sub-menu">
                     <a href="javascript:;">
+                        <i class="fa fa-edit"></i>
+                        <span>ĐƠN HÀNG</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="{{URL::to('/manager-order')}}">LIỆT KÊ ĐƠN HÀNG</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:;">
                         <i class="fa fa-th"></i>
                         <span>THƯƠNG HIỆU SẢN PHẨM</span>
                     </a>
@@ -130,7 +140,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>
 <!-- morris JavaScript -->	
-<script>
+{{-- <script>
 	$(document).ready(function() {
 		//BOX BUTTON SHOW AND CLOSE
 	   jQuery('.small-graph-box').hover(function() {
@@ -216,6 +226,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 		});
 	</script>
-	<!-- //calendar -->
+	<!-- //calendar -- --}}>
 </body>
 </html>

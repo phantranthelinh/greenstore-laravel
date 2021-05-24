@@ -23,7 +23,7 @@ class ProductController extends Controller
     }
     public function show_product(){
         $this->checkLogin();
-    	$all = DB::table('products')->join('categories','products.pro_author_id','=','categories.id')->join('admins','categories.c_author_id','=','admins.id')->select('products.id','products.pro_name','products.pro_view','products.pro_price','products.pro_sale','categories.c_name','admins.name','products.pro_number','products.created_at','products.pro_active')->get();
+    	$all = DB::table('products')->join('categories','products.pro_author_id','=','categories.id')->join('admins','categories.c_author_id','=','admins.id')->select('products.id','products.pro_name','products.pro_view','products.pro_price','products.pro_sale','categories.c_name','admins.name','products.pro_number','products.created_at','products.pro_active')->orderby('products.created_at','desc')->get();
     	$manager = view('admin.show-product')->with('all_pro',$all);
     	return view('admin-layout')->with('all_pro',$manager);
     }
@@ -92,7 +92,7 @@ class ProductController extends Controller
         $data['pro_price']=$req->price;
         $data['pro_category_id']=$req->brand;
         $data['pro_content']=$req->content;
-        $data['pro_number']=$req->number;
+        $data['pro_number']=$req->number_pro;
         $data['pro_sale']=$req->sale;
         $get_image = $req->file('images');
         if($get_image){
@@ -101,7 +101,7 @@ class ProductController extends Controller
             $new_image = "images/".$name_image.rand(20,1000).".".$get_image->getClientOriginalExtension();
             $get_image->move('public/uploads/images',$new_image);
             $data['pro_view']=$new_image;
-            DB::table('products')->where('id',$pro_id)->update($data);
+            DB::table('products')->where('products.id',$pro_id)->update($data);
             Session::put('msg','Cập nhật sản phẩm thành công!');
             return Redirect::to('show-product');
         }
@@ -110,6 +110,8 @@ class ProductController extends Controller
     Session::put('msg','Cập nhật sản phẩm thành công!');
     return Redirect::to('show-product');}
     //End admin
+
+    //home 
     public function product_detail($id){
         $pro =DB::table('products')->join('categories','categories.id','=','products.pro_category_id')->where('products.id',$id)->where('products.pro_active','1')->select('products.id','products.pro_name','products.pro_view','products.pro_price','products.pro_sale','products.pro_category_id','products.pro_keyword','products.pro_description','products.pro_content')->get();
         $categories = DB::table('categories')->where('c_active','1')->get();

@@ -19,6 +19,9 @@
     <div class="header">
         <header>
         <div class="container">
+            <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+            </div>
                 <div class="navbar">
                     <div class="logo">
                         <a href="{{URL::to('/index')}}"><img src="{{asset('public/frontend/images/logo.png')}}" width="150px"></a>
@@ -26,7 +29,7 @@
                     <div class="search">
                             <form method="POST" action="{{URL::to('/search')}}">
                                 {{csrf_field()}}
-                                <input type="text" name="search" placeholder="Tìm kiếm ...">
+                                <input type="search" name="search" placeholder="Tìm kiếm ...">
                                 <span><i class="fas fa-search"></i></span>
                             </form>
                     </div>
@@ -57,16 +60,22 @@
                                     </div>
                                 </li>
                             </div>
-                                <?php 
-                                $user_id = Session::get('id_user');
-                                if ($user_id ==NULL) {
-                                 ?>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id !=NULL) {
+                            ?>
+                                <li><a href="{{URL::to('/show-order')}}">XEM ĐƠN HÀNG</a></li>
+                            <?php }?>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id ==NULL) {
+                            ?>
                                 <li><a href="{{URL::to('login-checkout')}}">ĐĂNG NHẬP</a></li>
                                 </li>
-                                <?php }else{ ?>
+                            <?php }else{ ?>
                                 <li><a href="{{URL::to('logout-checkout')}}">ĐĂNG XUẤT</a></li>
                                 </li>
-                                <?php } ?>
+                            <?php } ?>
                         </ul>
                     </nav>
                     <div class="cart">
@@ -82,7 +91,7 @@
                 <div class="slideshow-container">
                     @foreach ($slides as $slide) 
                     <div class="mySlides fade">
-                      <div class="numbertext">1 / 2</div>
+                      
                       <img src="{{"public/frontend/".$slide->image.""}}" style="width:1000px">
                       <div class="text">HOT PRODUCT</div>
                     </div>
@@ -252,6 +261,14 @@
         var header = document.querySelector("header");
         header.classList.toggle("sticky",window.scrollY >0);
     })
+    window.onscroll = function() {myFunction()};
+
+    function myFunction() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+    }
     </script>
     <script type="text/javascript" src="{{asset("public/frontend/js/jquery-3.3.1.min.js")}}"></script>
     <script type="text/javascript" src="{{asset("public/frontend/js/js.js")}}" ></script>

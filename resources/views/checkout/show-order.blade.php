@@ -3,7 +3,7 @@
 <head>
      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Store - Giỏ hàng</title>
+    <title>Green Store - Đơn hàng của bạn</title>
     <link rel = "icon" href ="{{asset('public/backend/images/icon.png')}}" type = "image/x-icon">
     <link rel="stylesheet" href="{{asset('public/frontend/css/style.css')}}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swa   p"
@@ -18,6 +18,9 @@
     <div class="header">
         <header>
         <div class="container">
+            <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+            </div>
                 <div class="navbar">
                     <div class="logo">
                         <a href="{{URL::to('/index')}}"><img src="{{asset('public/frontend/images/logo.png')}}" width="150px"></a>
@@ -81,100 +84,63 @@
     <div class="small-container cart-page">
         <div class="row">
             <div class="col-2">
-                <h2 class="title">Điền thông tin gửi hàng</h2>
-                <form action="{{URL::to('/save-checkout')}}" method="POST">
-                    {{csrf_field()}}
-                    <input type="hidden" name="id_user" value="{{Session::get('id_user')}}">
-                    <input type="email" name="email" placeholder="Email*">
-                    <input type="text" name="name" placeholder="Họ và tên*">
-                    <input type="text" name="phone_number" placeholder="Số điện thoại*">
-                    <input type="text" name="address" placeholder="Địa chỉ*">
-                    <h4 style="text-align: left;color: #555;">Ghi chú gửi hàng</h4>
-                    <textarea cols="120" rows="10" placeholder="Ghi chú đơn hàng của bạn" style="padding:10px ;" name="notes"></textarea>
-                    <div class="ok">
-                        <input type="submit" value="Gửi" class="btn" style="float: right; width: 250px;">
-                    </div>
-                </form>
+                <h2 class="title">Đơn hàng của bạn</h2>
+                <div>
+                    <?php 
+                    if($ur_order->isEmpty()){
+                    ?>
+                    <p>Bạn chưa có đơn hàng nào</p>
+                    <?php }else{ ?>
+                    <table>
+                        @foreach ($ur_order as $rs)
+                            <tr>
+                                <td>Mã hóa đơn: </td>
+                                <td>{{$rs->oder_detail_id}}</td>
+                            </tr>
+                            <tr>
+                                <td>Tên khách hàng: </td>
+                                <td>{{$rs->name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Tên sản phẩm: </td>
+                                <td>{{$rs->pro_name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Số lượng: </td>
+                                <td>{{$rs->od_pro_qty}}</td>
+                            </tr>
+                            <tr>
+                                <td>Giá: </td>
+                                <td>{{number_format($rs->od_pro_price,)." VNĐ"}}</td>
+                            </tr>
+                            <tr>
+                                <td>Địa chỉ giao hàng: </td>
+                                <td>{{$rs->tr_address}}</td>
+                            </tr>
+                            <tr>
+                                <td>Phí vận chuyển:</td>
+                                <td>Miễn phí</td>
+                            </tr>
+                            <tr>
+                                <td>Tổng tiền phải chi trả: </td>
+                                <td>
+                                    <?php
+                                        $total = $rs->od_pro_qty *$rs->od_pro_price ;
+                                        echo number_format($total)." VNĐ"; 
+                                    ?>
+                                </td>
+                            </tr>
+                        @endforeach
+                    <p>Cảm ơn bạn đã đặt hàng chúng tôi sẽ liên hệ với bạn sớm nhất!</p>
+                    </table>
+                    <?php } ?>
+
+                </div>
+
+                <div style="float: right;" class="ok">
+                    <a href="{{URL::to('/index')}}"><button class="btn">Trở về trang chủ</button></a>
+                </div>
             </div>
-        </div>
-    </div>
-
-
-    
-
-    @php
-        $content = Cart::content();
-    @endphp
-    <!-- -----------------cart item details------------------- -->
-    <div class="small-container cart-page">
-        <table>
-                <tr>
-                    <th>Sản Phẩm</th>
-                    <th>Số Lượng</th>
-                    <th>Giá</th>
-                </tr>
-                @foreach ($content as $cart)
-                        <tr>
-                            <td>
-                                <div class="cart-info">
-                                    <img src="{{'public/uploads/'.$cart->options->image}}" width="150px">
-                                    <div>
-                                        <p>{{$cart->name}}</p>
-                                        <small style="color:red;">{{number_format($cart->price)." VND"}}</small>
-                                        
-                                        <br>
-                                        <a href="{{URL::to('remove-cart='.$cart->rowId)}}">Remove</a>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <form action="{{URL::to('/update-cart-qty')}}" method="post">
-                                    {{csrf_field()}}
-                                <input type="number" value="{{$cart->qty}}" width="50%" name="qty" min="1" max="20">
-                                <input type="hidden" value="{{$cart->rowId}}" name="rowId_cart" class="qty">
-                                <input type="submit" value="Cập nhật" name="number-qty" class="btn" style="float: right;">
-                                </form>
-                            </td>
-                            <td style="color:red;" >
-                                <?php 
-                                $Subtotal = $cart->price * $cart->qty ;
-                                echo number_format($Subtotal). " VNĐ";
-                                ?>
-                            </td>
-                        </tr>
-                @endforeach
-        </table>
-
-        <div class="total-price">
-            <table>
-                <tr>
-                    <td>Tổng</td>
-                    <td>{{Cart::subtotal()." VND"}}</td>
-                </tr>
-                <tr>
-                    <td>Phí vận chuyễn</td>
-                    <td>Miễn phí</td>
-                </tr>
-                <tr>
-                    <td>Thành tiền</td>
-                    <td>{{Cart::subtotal()." VND"}}</td>
-                </tr>
-            </table>
-
-        </div>
-        <div class="ok">
-            <?php 
-            $user_id = Session::get('id_user');
-            $shipping_id = Session::get('shipping_id');
-            if($user_id!=NULL && $shipping_id==NULL){
-             ?>
-                <a href="{{URL::to('/checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php }elseif($user_id!=NULL && $shipping_id!=NULL){ ?>
-                <a href="{{URL::to('/payment')}}"><button class="btn">Thanh Toán</button></a>
-            <?php }else{ ?>
-                <a href="{{URL::to('/login-checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php } ?>
         </div>
     </div>
 
@@ -219,6 +185,14 @@
         var header = document.querySelector("header");
         header.classList.toggle("sticky",window.scrollY >0);
     })
+    window.onscroll = function() {myFunction()};
+
+    function myFunction() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+    }
         </script>
 </body>
 

@@ -20,6 +20,9 @@
      <div class="header">
         <header>
         <div class="container">
+            <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+            </div>
                 <div class="navbar">
                     <div class="logo">
                         <a href="{{URL::to('/index')}}"><img src="{{asset('public/frontend/images/logo.png')}}" width="150px"></a>
@@ -57,16 +60,22 @@
                                     </div>
                                 </li>
                             </div>
-                               <?php 
-                                $user_id = Session::get('id_user');
-                                if ($user_id ==NULL) {
-                                 ?>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id !=NULL) {
+                            ?>
+                                <li><a href="{{URL::to('/show-order')}}">XEM ĐƠN HÀNG</a></li>
+                            <?php }?>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id ==NULL) {
+                            ?>
                                 <li><a href="{{URL::to('login-checkout')}}">ĐĂNG NHẬP</a></li>
                                 </li>
-                                <?php }else{ ?>
+                            <?php }else{ ?>
                                 <li><a href="{{URL::to('logout-checkout')}}">ĐĂNG XUẤT</a></li>
                                 </li>
-                                <?php } ?>
+                            <?php } ?>
                         </ul>
                     </nav>
                     <div class="cart">
@@ -84,9 +93,12 @@
     <!-- ---------- single Products detail ----------- -->
     <div class="small-container single-product">
         <div class="row">
-        <?php if(isset($_COOKIE['msg'])){ ?>
-            <p style="color:green; transition: 0.6s ease;"><?=$_COOKIE['msg']?></p>
-        <?php } ?>
+        <?php if((Session::get('msg')!=NULL)){ ?>
+            <div class="alert success">
+                <span class="closebtn">&times;</span>  
+                <?=Session::get('msg')?>
+            </div>
+        <?php Session::forget('msg'); } ?>
         </div>
         <div class="row">
             <div class="col-2">
@@ -113,10 +125,10 @@
                     <h1>{{$p->pro_name}}</h1>
                     <input type="hidden" value="{{$p->id}}" name="pro_id">
                     <h4 style="color:red;">{{number_format($p->pro_price)." VNĐ"}}</h4>
-                    <select>
+                    <select name="size_product">
                         <option>Chọn Size</option>
                         @foreach ($size_pro as $size )
-                            <option value="{{$size->size}}" name="size_product">{{$size->size}}</option>
+                            <option value="{{$size->size}}">{{$size->size}}</option>
                         @endforeach
                     </select>
                     <p>{{$p->pro_description}}</p>
@@ -179,7 +191,6 @@
     </div>
     
 
-
 <!-- ------------------- JS for  product gallery------------------------         -->
         <script>
             var ProductImg = document.getElementById("productImg");
@@ -231,7 +242,25 @@
         var header = document.querySelector("header");
         header.classList.toggle("sticky",window.scrollY >0);
     })
-        </script>
+    window.onscroll = function() {myFunction()};
+
+    function myFunction() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+    }
+    var close = document.getElementsByClassName("closebtn");
+    var i;
+
+    for (i = 0; i < close.length; i++) {
+      close[i].onclick = function(){
+        var div = this.parentElement;
+        div.style.opacity = "0";
+        setTimeout(function(){ div.style.display = "none"; }, 600);
+      }
+    }
+    </script>
 </body>
 
 </html>

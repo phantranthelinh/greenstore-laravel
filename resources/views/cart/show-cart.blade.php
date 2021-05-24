@@ -20,6 +20,9 @@
     <div class="header">
         <header>
         <div class="container">
+            <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+            </div>
                 <div class="navbar">
                     <div class="logo">
                         <a href="{{URL::to('/index')}}"><img src="{{asset('public/frontend/images/logo.png')}}" width="150px"></a>
@@ -57,16 +60,22 @@
                                     </div>
                                 </li>
                             </div>
-                                <?php 
-                                $user_id = Session::get('id_user');
-                                if ($user_id ==NULL) {
-                                 ?>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id !=NULL) {
+                            ?>
+                                <li><a href="{{URL::to('/show-order')}}">XEM ĐƠN HÀNG</a></li>
+                            <?php }?>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id ==NULL) {
+                            ?>
                                 <li><a href="{{URL::to('login-checkout')}}">ĐĂNG NHẬP</a></li>
                                 </li>
-                                <?php }else{ ?>
+                            <?php }else{ ?>
                                 <li><a href="{{URL::to('logout-checkout')}}">ĐĂNG XUẤT</a></li>
                                 </li>
-                                <?php } ?>
+                            <?php } ?>
                         </ul>
                     </nav>
                     <div class="cart">
@@ -85,72 +94,81 @@
     @endphp
     <!-- -----------------cart item details------------------- -->
     <div class="small-container cart-page">
-        <table>
-                <tr>
-                    <th>Sản Phẩm</th>
-                    <th>Số Lượng</th>
-                    <th>Giá</th>
-                </tr>
-                @foreach ($content as $cart)
-                        <tr>
-                            <td>
-                                <div class="cart-info">
-                                    <img src="{{'public/uploads/'.$cart->options->image}}" width="150px">
-                                    <div>
-                                        <p>{{$cart->name}}</p>
-                                        <small style="color:red;">{{number_format($cart->price)." VND"}}</small>
-                                        
-                                        <br>
-                                        <a href="{{URL::to('remove-cart='.$cart->rowId)}}">Remove</a>
-                                        
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <form action="{{URL::to('/update-cart-qty')}}" method="post">
-                                    {{csrf_field()}}
-                                <input type="number" value="{{$cart->qty}}" width="50%" name="qty" min="1" max="20">
-                                <input type="hidden" value="{{$cart->rowId}}" name="rowId_cart" class="qty">
-                                <input type="submit" value="Cập nhật" name="number-qty" class="btn" style="float: right;">
-                                </form>
-                            </td>
-                            <td style="color:red;" >
-                                <?php 
-                                $Subtotal = $cart->price * $cart->qty ;
-                                echo number_format($Subtotal). " VNĐ";
-                                ?>
-                            </td>
-                        </tr>
-                @endforeach
-        </table>
-
-        <div class="total-price">
-            <table>
-                <tr>
-                    <td>Tổng</td>
-                    <td>{{Cart::subtotal()." VND"}}</td>
-                </tr>
-                <tr>
-                    <td>Phí vận chuyễn</td>
-                    <td>Miễn phí</td>
-                </tr>
-                <tr>
-                    <td>Thành tiền</td>
-                    <td>{{Cart::subtotal()." VND"}}</td>
-                </tr>
-            </table>
-
-        </div>
+        <?php 
+        if($content->isEmpty()){
+         ?>
+        <p>Bạn không có sản phẩm nào trong giỏ hàng . Hãy quay lại mua hàng</p>
         <div class="ok">
-            <?php 
-            $id_user = Session::get('id_user');
-            if($id_user!=NULL) {
-             ?>
-            <a href="{{URL::to('checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php }else{ ?>
-            <a href="{{URL::to('login-checkout')}}"><button class="btn">Thanh Toán</button></a>
-            <?php } ?>
+            <a href="{{URL::to('index')}}"><button class="btn">Trở về trang chủ</button></a>
         </div>
+        <?php }else{ ?>
+            <table>
+                    <tr>
+                        <th>Sản Phẩm</th>
+                        <th>Số Lượng</th>
+                        <th>Giá</th>
+                    </tr>
+                    @foreach ($content as $cart)
+                            <tr>
+                                <td>
+                                    <div class="cart-info">
+                                        <img src="{{'public/uploads/'.$cart->options->image}}" width="150px">
+                                        <div>
+                                            <p>{{$cart->name}}</p>
+                                            <p><i style="color:red;font-size: 12px;">Size: {{$cart->weight}}</i></p>
+                                            <small style="color:red;">{{number_format($cart->price)." VND"}}</small>
+                                            
+                                            <br>
+                                            <a href="{{URL::to('remove-cart='.$cart->rowId)}}">Remove</a>
+                                            
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form action="{{URL::to('/update-cart-qty')}}" method="post">
+                                        {{csrf_field()}}
+                                    <input type="number" value="{{$cart->qty}}" width="50%" name="qty" min="1" max="20">
+                                    <input type="hidden" value="{{$cart->rowId}}" name="rowId_cart" class="qty">
+                                    <input type="submit" value="Cập nhật" name="number-qty" class="btn" style="float: right;">
+                                    </form>
+                                </td>
+                                <td style="color:red;" >
+                                    <?php 
+                                    $Subtotal = $cart->price * $cart->qty ;
+                                    echo number_format($Subtotal). " VNĐ";
+                                    ?>
+                                </td>
+                            </tr>
+                    @endforeach
+            </table>
+            <div class="total-price">
+                <table>
+                    <tr>
+                        <td>Tổng</td>
+                        <td>{{Cart::subtotal()." VND"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Phí vận chuyễn</td>
+                        <td>Miễn phí</td>
+                    </tr>
+                    <tr>
+                        <td>Thành tiền</td>
+                        <td>{{Cart::subtotal()." VND"}}</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="ok">
+                <?php 
+                $id_user = Session::get('id_user');
+                if($id_user!=NULL) {
+                 ?>
+                <a href="{{URL::to('checkout')}}"><button class="btn">Thanh Toán</button></a>
+                <?php }else{ ?>
+                <a href="{{URL::to('login-checkout')}}"><button class="btn">Thanh Toán</button></a>
+                <?php } ?>
+            </div>
+        <?php } ?>
     </div>
 
     <div class="footer">
@@ -194,7 +212,15 @@
         var header = document.querySelector("header");
         header.classList.toggle("sticky",window.scrollY >0);
     })
-        </script>
+    window.onscroll = function() {myFunction()};
+
+    function myFunction() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+    }
+</script>
 </body>
 
 </html>

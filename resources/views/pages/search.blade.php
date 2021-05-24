@@ -58,16 +58,22 @@
                                     </div>
                                 </li>
                             </div>
-                               <?php 
-                                $user_id = Session::get('id_user');
-                                if ($user_id ==NULL) {
-                                 ?>
-                                <li><a href="{{URL::to('login')}}">ĐĂNG NHẬP</a></li>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id !=NULL) {
+                            ?>
+                                <li><a href="{{URL::to('/show-order')}}">XEM ĐƠN HÀNG</a></li>
+                            <?php }?>
+                            <?php 
+                            $user_id = Session::get('id_user');
+                            if ($user_id ==NULL) {
+                            ?>
+                                <li><a href="{{URL::to('login-checkout')}}">ĐĂNG NHẬP</a></li>
                                 </li>
-                                <?php }else{ ?>
+                            <?php }else{ ?>
                                 <li><a href="{{URL::to('logout-checkout')}}">ĐĂNG XUẤT</a></li>
                                 </li>
-                                <?php } ?>
+                            <?php } ?>
                         </ul>
                     </nav>
                     <div class="cart">
@@ -84,7 +90,7 @@
     <div class="small-container">
 
         <div class="row row-2">
-            <h2>Tìm kiếm sản phẩm: {{Session::get('keywords')}}</h2>
+            <h2 style="color:#555;">Có {{Session::get('sl')}} sản phẩm tương tự với từ khóa tìm kiếm: {{Session::get('keywords')}}</h2>
             <select onchange="this.options[this.selectedIndex].value && (window.location= this.options[this.selectedIndex].value)">
                 <option>Sắp xếp</option>
                 <option value="?field=pro_price&orderBy=desc">Sắp xếp giá từ Cao đến thấp</option>
@@ -161,6 +167,14 @@
         var header = document.querySelector("header");
         header.classList.toggle("sticky",window.scrollY >0);
     })
+    window.onscroll = function() {myFunction()};
+
+    function myFunction() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+    }
 </script>
 </body>
 
