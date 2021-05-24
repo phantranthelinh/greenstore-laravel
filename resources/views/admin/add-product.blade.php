@@ -46,7 +46,7 @@
                                 <div class="form-group">
                                         <label>Mô tả sản phẩm</label>
                                         <div class="col-lg-15">
-                                            <textarea rows="4" class="form-control "  name="des" required="">
+                                            <textarea rows="4" class="form-control "  name="des" required="" id="ckeditor">
                                                 
                                             </textarea>
                                         </div>
@@ -54,7 +54,7 @@
                                 <div class="form-group">
                                         <label>Nội dung sản phẩm</label>
                                         <div class="col-lg-15">
-                                            <textarea rows="4" class="form-control "  name="content" required="">
+                                            <textarea rows="4" class="form-control "  name="content" required="" id="ckeditor1">
                                                 
                                             </textarea>
                                         </div>

@@ -130,9 +130,21 @@ class CheckoutController extends Controller
     }
     public function view_order($orderId){
         $this->checkLogin();
-        $rs = DB::table('orders')->join('users','orders.or_user_id','=','users.id')
-         ->orderby('orders.created_at','desc')->select('orders.id','users.name','orders.or_total','orders.created_at','orders.or_status')->get();
+        $rs = DB::table('order_detail')->join('transactions','tr_user_id','=','order_detail.od_user_id')->join('orders','orders.id','order_detail.od_order_id')
+         ->orderby('order_detail.od_created_at','desc')->select('order_detail.od_created_at','order_detail.od_pro_name','order_detail.od_pro_qty','order_detail.od_pro_price','tr_user_name','tr_note','tr_phone','tr_address','tr_user_name','or_total')->where('order_detail.od_order_id',$orderId)->limit(1)->get();
         $manager = view('admin.view-order')->with('all_order',$rs);
         return view('admin-layout')->with('all_order',$manager);
+    }
+    public function delete_order($orderId){
+        $this->checkLogin();
+        $delete1 = DB::table('order_detail')->where('od_order_id',$orderId)->delete();
+        $delete2 = DB::table('orders')->where('orders.id',$orderId)->delete();
+         if($delete1 && $delete2){
+            Session::put('msg','Xóa đơn hàng thành công!');
+            return Redirect::to('manager-order');
+        }else{
+            Session::put('msg','Xóa đơn hàng thất bại!');
+            return Redirect::to('manager-order');
+        }
     }
 }

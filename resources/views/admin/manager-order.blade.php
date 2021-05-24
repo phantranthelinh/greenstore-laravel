@@ -49,14 +49,14 @@
           @foreach ($all_order as $or)
           <tr>
             <td>{{$or->name}}</td>
-            <td>{{number_format((float)$or->or_total)." VNĐ"}}</td>
+            <td>{{$or->or_total}}</td>
             <td>{{$or->or_status}}</td>
             <td><span class="text-ellipsis">{{date('d-m-Y', strtotime($or->created_at))}}</span></td>
              <td>
               <a href="{{URL::to('/view-order='.$or->id)}}" ui-toggle-class="">
                 <i class="fa fa-pencil-square-o text-success text-active"></i>
               </a>
-                <a href="{{URL::to('/delete-product='.$or->id)}}" ui-toggle-class="" onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')">
+                <a href="{{URL::to('/delete-order='.$or->id)}}" ui-toggle-class="" onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')">
                 <i class="fa fa-times text-danger text"></i>
               </a>
             </td>
@@ -70,7 +70,6 @@
       <div class="row">
         
         <div class="col-sm-5 text-center">
-          <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
         </div>
         <div class="col-sm-7 text-right text-center-xs">                
           <ul class="pagination pagination-sm m-t-none m-b-none">

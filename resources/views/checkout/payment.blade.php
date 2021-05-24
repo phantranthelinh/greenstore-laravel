@@ -159,17 +159,17 @@
                 <span>
                     <input type="hidden" name="user_id" value="{{Session::get('id_user')}}">
                     <label>
-                        <input type="checkbox" value="Bằng tiền mặt" name="checkbox_payment"> Nhận tiền mặt <i class="fas fa-money-bill-alt"></i>
+                        <input type="radio" value="Bằng tiền mặt" name="checkbox_payment"> Nhận tiền mặt <i class="fas fa-money-bill-alt"></i>
                     </label>
                 </span>
                        <span>
                     <label>
-                        <input type="checkbox" value="Bằng thẻ ATM" name="checkbox_payment"> Bằng thẻ ATM <i class="far fa-credit-card"></i>
+                        <input type="radio" value="Bằng thẻ ATM" name="checkbox_payment"> Bằng thẻ ATM <i class="far fa-credit-card"></i>
                     </label>
                 </span>
                        <span>
                     <label>
-                        <input type="checkbox" value="Paypal" name="checkbox_payment"> Paypal <i class="fab fa-cc-paypal"></i>
+                        <input type="radio" value="Paypal" name="checkbox_payment"> Paypal <i class="fab fa-cc-paypal"></i>
                     </label>
                 </span>
                 <div class="ok">

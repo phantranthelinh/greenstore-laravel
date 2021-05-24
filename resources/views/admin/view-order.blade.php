@@ -17,16 +17,14 @@
         <thead>
           <tr>
             <th>TÊN NGƯỜI MUA</th>
-            <th>ĐỊA CHỈ</th>
             <th>SỐ ĐIỆN THOẠI</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($all_order as $or)
           <tr>
-            <td>{{$or->name}}</td>
-            <td>{{number_format((float)$or->or_total)." VNĐ"}}</td>
-            <td>{{$or->or_status}}</td>
+            <td>{{$or->tr_user_name}}</td>
+            <td>{{$or->tr_phone}}</td>
           @endforeach
         </tbody>
       </table>
@@ -37,9 +35,9 @@
       <div class="row">
         
         <div class="col-sm-5 text-center">
-          <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
+  
         </div>
-        <div class="col-sm-7 text-right text-center-xs">                
+        {{-- <div class="col-sm-7 text-right text-center-xs">                
           <ul class="pagination pagination-sm m-t-none m-b-none">
             <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
             <li><a href="">1</a></li>
@@ -48,7 +46,7 @@
             <li><a href="">4</a></li>
             <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
           </ul>
-        </div>
+        </div> --}}
       </div>
     </footer>
   </div>
@@ -70,43 +68,32 @@
         ?>
         <thead>
           <tr>
-            <th>TÊN NGƯỜI ĐẶT</th>
-            <th>TỔNG GIÁ TIỀN</th>
-            <th>TÌNH TRẠNG</th>
-            <th>NGÀY THÊM</th>
-            <th>HIỂN THỊ</th>
-            <th style="width:30px;"></th>
+            <th>TÊN NGƯỜI MUA</th>
+            <th>SỐ ĐIỆN THOẠI</th>
+            <th>ĐỊA CHỈ</th>
+            <th>GHI CHÚ</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($all_order as $or)
           <tr>
-            <td>{{$or->name}}</td>
-            <td>{{number_format((float)$or->or_total)." VNĐ"}}</td>
-            <td>{{$or->or_status}}</td>
-            <td><span class="text-ellipsis">{{date('d-m-Y', strtotime($or->created_at))}}</span></td>
-             <td>
-              <a href="{{URL::to('/edit-product='.$or->id)}}" ui-toggle-class="">
-                <i class="fa fa-pencil-square-o text-success text-active"></i>
-              </a>
-                <a href="{{URL::to('/delete-product='.$or->id)}}" ui-toggle-class="" onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')">
-                <i class="fa fa-times text-danger text"></i>
-              </a>
-            </td>
-          </tr>
+            <td>{{$or->tr_user_name}}</td>
+            <td>{{$or->tr_phone}}</td>
+            <td>{{$or->tr_address}}</td>
+            <td>{{$or->tr_note}}</td>
           @endforeach
         </tbody>
       </table>
 
     </div>
-    
+
     <footer class="panel-footer">
       <div class="row">
         
         <div class="col-sm-5 text-center">
-          <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
+  
         </div>
-        <div class="col-sm-7 text-right text-center-xs">                
+        {{-- <div class="col-sm-7 text-right text-center-xs">                
           <ul class="pagination pagination-sm m-t-none m-b-none">
             <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
             <li><a href="">1</a></li>
@@ -115,7 +102,7 @@
             <li><a href="">4</a></li>
             <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
           </ul>
-        </div>
+        </div> --}}
       </div>
     </footer>
   </div>
@@ -137,29 +124,20 @@
         ?>
         <thead>
           <tr>
-            <th>TÊN NGƯỜI ĐẶT</th>
-            <th>TỔNG GIÁ TIỀN</th>
-            <th>TÌNH TRẠNG</th>
-            <th>NGÀY THÊM</th>
-            <th>HIỂN THỊ</th>
+            <th>TÊN SẢN PHẨM</th>
+            <th>SỐ LƯỢNG</th>
+            <th>GIÁ</th>
+            <th>TỔNG TIỀN</th>
             <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
           @foreach ($all_order as $or)
           <tr>
-            <td>{{$or->name}}</td>
-            <td>{{number_format((float)$or->or_total)." VNĐ"}}</td>
-            <td>{{$or->or_status}}</td>
-            <td><span class="text-ellipsis">{{date('d-m-Y', strtotime($or->created_at))}}</span></td>
-             <td>
-              <a href="{{URL::to('/edit-product='.$or->id)}}" ui-toggle-class="">
-                <i class="fa fa-pencil-square-o text-success text-active"></i>
-              </a>
-                <a href="{{URL::to('/delete-product='.$or->id)}}" ui-toggle-class="" onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')">
-                <i class="fa fa-times text-danger text"></i>
-              </a>
-            </td>
+            <td>{{$or->od_pro_name}}</td>
+            <td>{{$or->od_pro_qty}}</td>
+            <td>{{number_format($or->od_pro_price)." VNĐ"}}</td>
+            <td>{{$or->or_total}}</td>
           </tr>
           @endforeach
         </tbody>
@@ -171,9 +149,8 @@
       <div class="row">
         
         <div class="col-sm-5 text-center">
-          <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
         </div>
-        <div class="col-sm-7 text-right text-center-xs">                
+        {{-- <div class="col-sm-7 text-right text-center-xs">                
           <ul class="pagination pagination-sm m-t-none m-b-none">
             <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
             <li><a href="">1</a></li>
@@ -183,7 +160,7 @@
             <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
           </ul>
         </div>
-      </div>
+      </div> --}}
     </footer>
   </div>
 </div>
